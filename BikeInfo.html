@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motorbike Profile</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+
+        .container {
+            min-height: 50vh;
+            width: 100%;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 20px;
+            animation: slideIn 0.5s ease-in-out forwards;
+            margin-top: 50px;
+        }
+
+
+        h1 {
+            text-align: center;
+            font-size: 8vw;
+        }
+
+        form {
+            width: 90%;
+            max-width: 400px;
+            margin-top: 12px;
+        }
+
+        fieldset {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(128, 128, 128, 0.2);
+        }
+
+        legend {
+            font-size: 14px;
+            color: rgba(128, 128, 128, 0.8);
+        }
+
+        input {
+            width: 100%;
+            border: none;
+            outline: none;
+            padding: 8px;
+            font-size: 16px;
+        }
+
+        input::placeholder {
+            font-size: 14px;
+            color: #888;
+        }
+
+        .signin-btn button {
+            width: 200px;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            background-color: rgb(29, 153, 229);
+            color: white;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background 0.3s ease-in-out, transform 0.2s;
+        }
+
+        .signin-btn button:hover {
+            background-color: rgb(24, 130, 195);
+            transform: scale(1.05);
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+            }
+
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container" id="form-container">
+        <h1>Create Your MotorBike Profile</h1>
+        <form id="bikeForm">
+            <fieldset>
+                <legend>Brand</legend>
+                <input list="vehicle-makes" id="brand" name="vehicle" placeholder="E.g., Honda"
+                    oninput="updateModelList()">
+                <datalist id="vehicle-makes">
+                    <option value="Honda">
+                    <option value="Yamaha">
+                    <option value="Suzuki">
+                    <option value="BMW">
+                    <option value="Ducati">
+                </datalist>
+                <div class="error" id="brandError"></div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Model</legend>
+                <input list="vehicle-models" id="model" name="vehicle-model" placeholder="E.g., CBR500R" required>
+                <datalist id="vehicle-models"></datalist>
+                <div class="error" id="modelError"></div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Color</legend>
+                <input type="text" placeholder="E.g., Black">
+            </fieldset>
+
+            <fieldset>
+                <legend>Year of Manufacture</legend>
+                <input type="number" id="year" name="vehicle-year" placeholder="E.g., 2018" required>
+                <div class="error" id="yearError"></div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Engine Capacity (CC)</legend>
+                <input type="number" id="engineCC" placeholder="E.g., 650">
+                <div class="error" id="engineCCError"></div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Registration Number / Plate Number</legend>
+                <input type="text" id="plate" placeholder="E.g., ABC-1234">
+                <div class="error" id="plateError"></div>
+            </fieldset>
+        </form>
+
+        <div class="signin-btn">
+            <button type="button" onclick="validateAndProceed()">Next</button>
+        </div>
+    </div>
+
+    <script>
+        const bikeModels = {
+            "Honda": ["CBR500R", "CB500X", "Africa Twin", "Rebel 500"],
+            "Yamaha": ["R1", "R6", "MT-07", "MT-09"],
+            "Suzuki": ["GSX-R600", "GSX-R1000", "Hayabusa", "V-Strom 650"],
+            "BMW": ["S1000RR", "R1250GS", "F900R", "K1600GT"],
+            "Ducati": ["Panigale V4", "Monster 821", "Scrambler", "Multistrada"]
+        };
+
+        function updateModelList() {
+            let brand = document.getElementById('brand').value;
+            let modelList = document.getElementById('vehicle-models');
+            modelList.innerHTML = "";
+
+            if (bikeModels[brand]) {
+                bikeModels[brand].forEach(model => {
+                    let option = document.createElement('option');
+                    option.value = model;
+                    modelList.appendChild(option);
+                });
+            }
+        }
+
+        function validateAndProceed() {
+            let isValid = true;
+
+            const brand = document.getElementById('brand').value.trim();
+            const model = document.getElementById('model').value.trim();
+            const year = document.getElementById('year').value.trim();
+            const engineCC = document.getElementById('engineCC').value.trim();
+            const plate = document.getElementById('plate').value.trim();
+
+            document.getElementById('brandError').textContent = "";
+            document.getElementById('modelError').textContent = "";
+            document.getElementById('yearError').textContent = "";
+            document.getElementById('engineCCError').textContent = "";
+            document.getElementById('plateError').textContent = "";
+
+            if (!brand) {
+                document.getElementById('brandError').textContent = "Please enter a valid brand.";
+                isValid = false;
+            }
+            if (!bikeModels[brand] || !bikeModels[brand].includes(model)) {
+                document.getElementById('modelError').textContent = "Please enter a valid model for the selected brand.";
+                isValid = false;
+            }
+            if (!year || isNaN(year) || year.length !== 4 || year < 1900 || year > new Date().getFullYear()) {
+                document.getElementById('yearError').textContent = "Enter a valid 4-digit year.";
+                isValid = false;
+            }
+            if (!engineCC || isNaN(engineCC) || engineCC < 50 || engineCC > 2000) {
+                document.getElementById('engineCCError').textContent = "Enter a valid engine CC (50-2000).";
+                isValid = false;
+            }
+            if (!plate) {
+                document.getElementById('plateError').textContent = "Please enter the registration number.";
+                isValid = false;
+            }
+
+            if (isValid) {
+                document.getElementById("form-container").style.animation = "slideOut 0.5s ease-in-out forwards";
+                setTimeout(() => {
+                    window.location.href = "Home.html";
+                }, 500);
+            }
+        }
+    </script>
+
+</body>
+
+</html>

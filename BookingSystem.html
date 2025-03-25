@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking & Scheduling</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        function openMap() {
+            window.location.href = "map.html"; // Redirect to the map page
+        }
+
+        function setSelectedStation(stationName) {
+            document.getElementById("selectedStation").value = stationName; // Update input with chosen station
+        }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 100%;
+            min-height: 100vh;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: slideIn 0.5s ease-in-out forwards;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 8vw;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(128, 128, 128, 0.2);
+        }
+
+        .input-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        legend {
+            font-size: 14px;
+            color: rgba(128, 128, 128, 0.8);
+        }
+
+        .input-container select {
+            width: 100%;
+            border: none;
+            outline: none;
+            padding: 8px;
+            font-size: 13px;
+            appearance: none;
+        }
+
+        input {
+            border: none;
+            outline: none;
+        }
+
+        .map-icon {
+            position: absolute;
+            right: 10px;
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            background-color: rgb(29, 153, 229);
+            color: white;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        #messageBox {
+            position: fixed;
+            top: -100px;
+            /* Start hidden above screen */
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 20px;
+            color: white;
+            font-size: 16px;
+            border-radius: 8px;
+            max-width: 90%;
+            text-align: center;
+            transition: top 0.5s ease-in-out;
+            z-index: 9999;
+            /* Ensure it's on top */
+        }
+
+        .service-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .service-option {
+            background-color: #f0f0f0;
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            user-select: none;
+            color: rgba(0, 0, 0, 0.5)
+        }
+
+        .service-option input {
+            display: none;
+        }
+
+        .service-option.selected {
+            background-color: rgb(29, 153, 229);
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="messageBox"></div>
+    <div class="container">
+        <h1>Book and Schedule Your Service Here!</h1>
+
+        <section class="booking-form">
+            <form onsubmit="validateForm(event)">
+                <fieldset class="form-group">
+                    <legend>Choose Nearby Service Station:</legend>
+                    <div class="input-container">
+                        <select id="serviceStation" required>
+                            <option value="">Select a Service Station</option>
+                            <option value="BikeTech Colombo">BikeTech Colombo</option>
+                            <option value="TwoWheels Garage">TwoWheels Garage</option>
+                            <option value="MotoFix Colombo">MotoFix Colombo</option>
+                            <option value="Colombo Motor Works">Colombo Motor Works</option>
+                            <option value="Speedy Bike Repairs">Speedy Bike Repairs</option>
+                        </select>
+                        <img src="Images/placeholder.png" alt="Map Icon" class="map-icon" onclick="openMap()">
+                    </div>
+                </fieldset>
+
+                <!-- Date and Time -->
+                <fieldset class="form-group">
+                    <legend for="date">Select Date:</legend>
+                    <input type="date" id="date" name="date" required>
+                </fieldset>
+
+                <fieldset class="form-group">
+                    <legend for="time">Select Time:</legend>
+                    <input type="time" id="time" name="time" required>
+                </fieldset>
+
+                <!-- Motorbike Info -->
+                <fieldset class="form-group">
+                    <legend for="bikeModel">Motorbike Model:</legend>
+                    <input type="text" value="Honda CBR500R" id="bikeModel" name="bikeModel" required readonly>
+                </fieldset>
+
+                <fieldset class="form-group">
+                    <legend for="bikePlate">Motorbike Plate Number:</legend>
+                    <input type="text" value="ABC-1234" id="bikePlate" name="bikePlate" required readonly>
+                </fieldset>
+
+                <fieldset class="form-group">
+                    <legend>Select Service Type:</legend>
+                    <div class="service-options">
+                        <label class="service-option">
+                            <input type="checkbox" name="serviceType" value="Oil Change"> Oil Change
+                        </label>
+                        <label class="service-option">
+                            <input type="checkbox" name="serviceType" value="Brake Check"> Brake Check
+                        </label>
+                        <label class="service-option">
+                            <input type="checkbox" name="serviceType" value="Tire Replacement"> Tire Replacement
+                        </label>
+                        <label class="service-option">
+                            <input type="checkbox" name="serviceType" value="Engine Tuning"> Engine Tuning
+                        </label>
+                        <label class="service-option">
+                            <input type="checkbox" name="serviceType" value="Inspection"> Inspection
+                        </label>
+                    </div>
+                </fieldset>
+
+                <button type="submit">Book Service</button>
+            </form>
+        </section>
+    </div>
+    <script>
+        function validateForm(event) {
+            event.preventDefault();
+            let station = document.getElementById("serviceStation").value;
+            let date = document.getElementById("date").value;
+            let time = document.getElementById("time").value;
+            let bikeModel = document.getElementById("bikeModel").value;
+            let bikePlate = document.getElementById("bikePlate").value;
+            let selectedServices = document.querySelectorAll('input[name="serviceType"]:checked');
+
+            if (!station || !date || !time || !bikeModel || !bikePlate || selectedServices.length === 0) {
+                showMessage("Please fill in all fields correctly.", "red");
+                return;
+            }
+            showMessage("Booking Successful!", "green");
+        }
+
+        function showMessage(msg, color) {
+            let messageBox = document.getElementById("messageBox");
+            messageBox.innerText = msg;
+            messageBox.style.backgroundColor = color;
+            messageBox.style.top = "10px"; // Slide into view
+            setTimeout(() => {
+                messageBox.style.top = "-100px"; // Hide after 3s
+            }, 3000);
+        }
+
+        document.querySelectorAll('.service-option').forEach(option => {
+            option.addEventListener('click', function () {
+                let checkbox = this.querySelector('input');
+                checkbox.checked = !checkbox.checked;
+                this.classList.toggle('selected', checkbox.checked);
+            });
+        });
+    </script>
+</body>
+
+</html>

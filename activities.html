@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Activities</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .filter-icon {
+            font-size: 20px;
+            cursor: pointer;
+            color: #333;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            color: gray;
+            font-size: 14px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .tab.active {
+            color: black;
+            font-weight: bold;
+        }
+
+        .tab.active::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40%;
+            height: 3px;
+            background-color: rgb(29, 153, 229);
+            border-radius: 2px;
+        }
+
+        /* Content */
+        .content-wrapper {
+            display: flex;
+            transition: transform 0.3s ease;
+            flex: 1;
+        }
+
+        .content {
+            flex: 1;
+            display: none;
+            padding: 20px;
+            color: gray;
+        }
+
+        .content.active {
+            display: block;
+        }
+
+        /* Empty State */
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: gray;
+            text-align: center;
+        }
+
+        .empty-state img {
+            width: 80px;
+            opacity: 0.5;
+            margin-bottom: 10px;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            left: 0;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 3vw 0;
+            border-top: 1px solid rgba(128, 128, 128, 0.2);
+            box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 3.5vw;
+            color: gray;
+            text-decoration: none;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .nav-item i {
+            font-size: 20px;
+            /* Adjust icon size here */
+        }
+
+        .nav-item.active {
+            font-weight: normal;
+        }
+
+        .nav-item:nth-child(2) {
+            color: black;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <span>Your activities</span>
+        <i class="fas fa-sliders-h filter-icon"></i>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs" id="tabs">
+        <div class="tab active" data-tab="ongoing">Ongoing</div>
+        <div class="tab" data-tab="completed">Completed</div>
+        <div class="tab" data-tab="complaint">Complaint</div>
+    </div>
+
+    <!-- Content Wrapper for Sliding Effect -->
+    <div class="content-wrapper" id="content-wrapper">
+        <div class="content active" id="ongoing-content">
+            <div class="empty-state">
+                <img src="Images/eye-slash.jpg" alt="Empty">
+                <p>You have no ongoing activites at the moment</p>
+            </div>
+        </div>
+        <div class="content" id="completed-content">
+            <div class="empty-state">
+                <img src="Images/eye-slash.jpg" alt="Empty">
+                <p>You have no completed activities at the moment</p>
+            </div>
+        </div>
+        <div class="content" id="complaint-content">
+            <div class="empty-state">
+                <img src="Images/eye-slash.jpg" alt="Empty">
+                <p>You have no complaints at the moment</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <a href="home.html" class="nav-item active">
+            <i class="fas fa-home"></i><br>Home
+        </a>
+        <a href="activities.html" class="nav-item">
+            <i class="fas fa-list"></i><br>Activities
+        </a>
+        <a href="notifications.html" class="nav-item">
+            <i class="fas fa-bell"></i><br>Notification
+        </a>
+        <a href="account.html" class="nav-item">
+            <i class="fas fa-user"></i><br>Account
+        </a>
+    </div>
+    <script>
+        const tabs = document.querySelectorAll('.tab');
+        const contentWrapper = document.getElementById('content-wrapper');
+        const contents = document.querySelectorAll('.content');
+
+        // Function to switch tabs
+        function switchTab(activeTab) {
+            tabs.forEach(tab => tab.classList.remove('active'));
+            activeTab.classList.add('active');
+
+            const activeTabData = activeTab.getAttribute('data-tab');
+
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            const activeContent = document.getElementById(activeTabData + '-content');
+            activeContent.classList.add('active');
+
+            // Apply the swipe effect (slide left or right)
+            const activeIndex = [...tabs].indexOf(activeTab);
+            contentWrapper.style.transform = `translateX(-${activeIndex * 100}%)`;
+        }
+
+        // Add event listeners to tabs
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                switchTab(tab);
+            });
+        });
+    </script>
+</body>
+
+</html>

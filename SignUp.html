@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - RideX</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 100%;
+            min-height: 100vh;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: slideIn 0.5s ease-in-out forwards;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+            }
+
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 8vw;
+            margin-bottom: 20px;
+        }
+
+        form {
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+        }
+
+        #form2 {
+            margin-top: 5px;
+        }
+
+        fieldset {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(128, 128, 128, 0.2);
+            position: relative;
+        }
+
+        legend {
+            font-size: 14px;
+            color: rgba(128, 128, 128, 0.8);
+        }
+
+        input {
+            width: 100%;
+            border: none;
+            outline: none;
+            padding: 8px;
+            font-size: 16px;
+            padding-right: 30px;
+        }
+
+        .signin-btn button {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            background-color: rgb(29, 153, 229);
+            color: white;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .separator {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 20px 0px 5px;
+            width: 80%;
+        }
+
+        .separator hr {
+            flex: 1;
+            border: none;
+            height: 1px;
+            background: #ccc;
+        }
+
+        .separator span {
+            padding: 0 10px;
+            color: #555;
+        }
+
+        .contact-logos {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            ;
+        }
+
+        .logo-box {
+            width: 60px;
+            height: 60px;
+            border: 1px solid rgba(128, 128, 128, 0.6);
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .logo-box img {
+            width: 40px;
+            height: auto;
+        }
+
+        .error-msg {
+            color: red;
+            font-size: 12px;
+            display: none;
+        }
+
+        .valid-tick {
+            display: none;
+            color: green;
+            position: absolute;
+            right: 30px;
+            /* Move it a bit left so it doesn't overlap with the eye icon */
+            top: 10px;
+        }
+
+        .eye-icon {
+            position: absolute;
+            right: 10px;
+            /* Keep it close to the right edge */
+            top: 10px;
+            cursor: pointer;
+            color: gray;
+        }
+
+        /* Slide out animation */
+        .slide-out {
+            animation: slideOut 0.5s ease-in-out forwards;
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(100%);
+            }
+        }
+
+        #messageBox {
+            position: fixed;
+            top: -100px;
+            /* Start hidden above screen */
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 20px;
+            color: white;
+            font-size: 16px;
+            border-radius: 8px;
+            max-width: 90%;
+            text-align: center;
+            transition: top 0.5s ease-in-out;
+            z-index: 9999;
+            /* Ensure it's on top */
+        }
+    </style>
+</head>
+
+<body>
+    <div id="messageBox"></div>
+    <div id="mainPage" class="container">
+        <h1>Create Your RideX Account</h1>
+        <form action="signup.php" method="POST" id="signupForm">
+            <fieldset>
+                <legend>Email</legend>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                <span class="valid-tick" id="emailTick">✅</span>
+                <p class="error-msg" id="emailError">Please enter a valid email address.</p>
+            </fieldset>
+
+            <fieldset>
+                <legend>Password</legend>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                <span class="valid-tick" id="passwordTick">✅</span>
+                <span class="eye-icon" id="passwordEye">👁️</span>
+                <p class="error-msg" id="passwordError">Password must be exactly 8 characters, include a number and a
+                    symbol.</p>
+            </fieldset>
+
+            <fieldset>
+                <legend>Confirm Password</legend>
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password"
+                    required>
+                <span class="valid-tick" id="confirmTick">✅</span>
+                <span class="eye-icon" id="confirmEye">👁️</span>
+                <p class="error-msg" id="confirmError">Passwords do not match.</p>
+            </fieldset>
+
+            <div class="signin-btn">
+                <button type="submit">Sign Up</button>
+            </div>
+        </form>
+
+        <div class="separator">
+            <hr>
+            <span>Or</span>
+            <hr>
+        </div>
+
+        <div class="contact-logos">
+            <div class="logo-box">
+                <img src="Images/facebook-logo.jpg" alt="Facebook">
+            </div>
+            <div class="logo-box">
+                <img src="Images/google-logo.png" alt="Google">
+            </div>
+            <div class="logo-box">
+                <img src="Images/microsoft-logo.png" alt="Microsoft">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("password").addEventListener("input", function () {
+            const password = this.value;
+            const passwordTick = document.getElementById("passwordTick");
+            const passwordError = document.getElementById("passwordError");
+
+            // Restrict password to 8 characters
+            if (password.length > 8) {
+                this.value = password.slice(0, 8);
+            }
+
+            // Regular expression to check for numbers and symbols
+            const strongPassword = /^(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{8}$/;
+
+            if (strongPassword.test(password)) {
+                passwordTick.style.display = "inline";
+                passwordError.style.display = "none";
+            } else {
+                passwordTick.style.display = "none";
+                passwordError.style.display = "block";
+            }
+        });
+
+        document.getElementById("confirmPassword").addEventListener("input", function () {
+            const confirmPassword = this.value;
+            const password = document.getElementById("password").value;
+            const confirmTick = document.getElementById("confirmTick");
+            const confirmError = document.getElementById("confirmError");
+
+            // Restrict confirm password to 8 characters
+            if (confirmPassword.length > 8) {
+                this.value = confirmPassword.slice(0, 8);
+            }
+
+            if (confirmPassword === password && confirmPassword.length === 8) {
+                confirmTick.style.display = "inline";
+                confirmError.style.display = "none";
+            } else {
+                confirmTick.style.display = "none";
+                confirmError.style.display = "block";
+            }
+        });
+
+        // Toggle password visibility
+        document.getElementById("passwordEye").addEventListener("click", function () {
+            const passwordInput = document.getElementById("password");
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+            } else {
+                passwordInput.type = "password";
+            }
+        });
+
+        document.getElementById("confirmEye").addEventListener("click", function () {
+            const confirmPasswordInput = document.getElementById("confirmPassword");
+            if (confirmPasswordInput.type === "password") {
+                confirmPasswordInput.type = "text";
+            } else {
+                confirmPasswordInput.type = "password";
+            }
+        });
+
+        // Real-time Email Validation
+        document.getElementById("email").addEventListener("input", function () {
+            const email = this.value;
+            const emailTick = document.getElementById("emailTick");
+            const emailError = document.getElementById("emailError");
+
+            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+            if (emailPattern.test(email)) {
+                emailTick.style.display = "inline";
+                emailError.style.display = "none";
+            } else {
+                emailTick.style.display = "none";
+                emailError.style.display = "block";
+            }
+        });
+
+        // Form Submission Validation
+        // Form Submission Validation
+        document.getElementById("signupForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // Stop form from submitting
+
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
+
+            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            const strongPassword = /^(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{8}$/;
+
+            let errorMessage = "";
+
+            // Validate Email
+            if (!emailPattern.test(email)) {
+                errorMessage += "⚠️ Invalid email format.\n";
+            }
+
+            // Validate Password
+            if (!strongPassword.test(password)) {
+                errorMessage += "⚠️ Password must be exactly 8 characters, include a number & a symbol.\n";
+            }
+
+            // Validate Confirm Password
+            if (password !== confirmPassword) {
+                errorMessage += "⚠️ Passwords do not match.\n";
+            }
+
+            // Show error message if validation fails
+            if (errorMessage !== "") {
+                showMessage(errorMessage, "red");
+                return; // Prevent redirection
+            }
+
+            // Slide-out animation before redirecting
+            document.getElementById("mainPage").classList.add("slide-out");
+
+            setTimeout(function () {
+                window.location.href = "BikeInfo.html";
+            }, 500);
+        });
+
+        // Function to show messages
+        function showMessage(msg, color) {
+            let messageBox = document.getElementById("messageBox");
+            messageBox.innerText = msg;
+            messageBox.style.backgroundColor = color;
+            messageBox.style.top = "10px"; // Slide into view
+
+            setTimeout(() => {
+                messageBox.style.top = "-100px"; // Hide after 3s
+            }, 3000);
+        }
+
+
+
+    </script>
+</body>
+
+</html>

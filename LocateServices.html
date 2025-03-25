@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PickMe - Map Interface</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=places" async
+        defer></script>
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            height: 100%;
+        }
+
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .map-container {
+            width: 100%;
+            height: 60vh;
+            margin-bottom: 20px;
+        }
+
+        #service-list {
+            width: 90%;
+            max-width: 600px;
+            margin-top: 10px;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #stations-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #stations-list li {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        #stations-list li:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <h1>Motorbike Service Stations Nearby</h1>
+        <div id="map" class="map-container"></div>
+        <div id="service-list">
+            <ul id="stations-list">
+                <!-- List of stations will be dynamically populated here -->
+            </ul>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+<script>
+    let map;
+    let userMarker;
+    let serviceStations = [];
+
+    function initMap() {
+        // Initialize Google Map centered on the user's current location
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(position => {
+                const userLocation = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+
+                map = new google.maps.Map(document.getElementById('map'), {
+                    center: userLocation,
+                    zoom: 14
+                });
+
+                userMarker = new google.maps.Marker({
+                    position: userLocation,
+                    map: map,
+                    title: "Your Location"
+                });
+
+                fetchNearbyStations(userLocation);
+            }, () => {
+                alert("Geolocation failed. Please enable location services.");
+            });
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    }
+
+    function fetchNearbyStations(location) {
+        const service = new google.maps.places.PlacesService(map);
+
+        const request = {
+            location: location,
+            radius: 5000, // Radius of 5 kilometers
+            type: ['store'], // You can filter by specific types like 'motorcycle_repair', or use a general 'store'
+            keyword: 'motorbike service'
+        };
+
+        service.nearbySearch(request, (results, status) => {
+            if (status === google.maps.places.PlacesServiceStatus.OK) {
+                serviceStations = results;
+                displayStations(results);
+            } else {
+                alert("No service stations found nearby.");
+            }
+        });
+    }
+
+    function displayStations(stations) {
+        const stationsList = document.getElementById('stations-list');
+        stationsList.innerHTML = ''; // Clear any previous data
+
+        stations.forEach(station => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${station.name} - ${station.vicinity}`;
+            stationsList.appendChild(listItem);
+
+            const marker = new google.maps.Marker({
+                position: station.geometry.location,
+                map: map,
+                title: station.name
+            });
+        });
+    }
+
+    window.onload = initMap;
+
+</script>
+
+</html>

@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <title>Ride X</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            background-color: #f5f5f5;
+            flex-direction: column;
+            width: 100%;
+            min-height: 100%;
+            overflow-x: hidden;
+            overflow-y: auto;
+            padding-bottom: 20px;
+            animation: slideIn 0.5s ease-in-out;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding-bottom: 10vw;
+            overflow: visible;
+
+        }
+
+
+
+        /* Header */
+        .header {
+            width: 100%;
+            padding: 5vw 5vw 30vw;
+            display: flex;
+            flex-direction: column;
+            gap: 5vw;
+            background-color: darkblue;
+            height: 20vw;
+            border-bottom-left-radius: 2vw;
+            border-bottom-right-radius: 2vw;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .user-profile-img img {
+            border-radius: 50%;
+            width: 18vw;
+            height: 18vw;
+            object-fit: cover;
+        }
+
+        .user-profile-content {
+            margin-top: 2vw;
+            margin-left: 4vw;
+            color: white;
+            text-align: left;
+        }
+
+        .user-profile-content h2 {
+            font-size: 5vw;
+            line-height: 1.2;
+        }
+
+        .user-profile-content p {
+            font-size: 3.5vw;
+            line-height: 1.4;
+        }
+
+        /* Content */
+        .content {
+            width: 100%;
+            max-width: 600px;
+            background-color: white;
+            padding: 5vw;
+            margin-top: 2vw;
+        }
+
+        .content input {
+            width: 88%;
+            border: 1px solid rgba(128, 128, 128, 0.8);
+            box-shadow: 5px 2px 5px rgba(0, 0, 0, 0.1);
+            outline: none;
+            padding: 2vw;
+            font-size: 4vw;
+            border-radius: 15px;
+            margin-bottom: 5vw;
+            margin-left: 5vw;
+            margin-right: auto;
+        }
+
+        /* Features Grid */
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            /* Space evenly between items */
+            gap: 2vw;
+            /* Adjust gap if needed */
+            margin-top: 5vw;
+            width: 100%;
+        }
+
+        .feature-box {
+            background: rgba(232, 231, 231, 0.5);
+            padding: 2vw;
+            border: 1px solid rgba(128, 128, 128, 0.8);
+            border-radius: 3vw;
+            text-align: center;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            width: 30%;
+            min-width: 18vw;
+            margin-bottom: 3vw;
+            display: block;
+            text-decoration: none;
+            color: inherit;
+
+        }
+
+        .feature-box p {
+            font-size: 3vw;
+            color: black;
+            word-wrap: break-word;
+            white-space: normal;
+        }
+
+        .feature-box img {
+            width: 13vw;
+            /* Adjusted image size to fit the box */
+            height: 13vw;
+            margin-bottom: 2vw;
+        }
+
+
+        .bike-profile-con {
+            margin-top: 3vw;
+            margin-bottom: 5vw;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-evenly;
+            border-radius: 5vw;
+            height: 30vw;
+            position: relative;
+            overflow: hidden;
+            background-color: #f0f0f0;
+            box-shadow: 5px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .bike-profile-img {
+            position: absolute;
+            top: -2vw;
+            left: -20vw;
+            height: 100%;
+            width: 100%;
+        }
+
+        .bike-profile-content {
+            position: absolute;
+            right: 5vw;
+            text-align: right;
+        }
+
+        .bike-profile-img img {
+            width: 60vw;
+            height: 35vw;
+        }
+
+        /* Fixed Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            left: 0;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 3vw 0;
+            border-top: 1px solid rgba(128, 128, 128, 0.2);
+            box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 3.5vw;
+            color: gray;
+            text-decoration: none;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .nav-item i {
+            font-size: 20px;
+            /* Adjust icon size here */
+        }
+
+        .nav-item.active {
+            color: black;
+            font-weight: bold;
+        }
+
+        /* Slide-in animation */
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Slide-out effect for feature box */
+        @keyframes slideOutFeatureBox {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+        }
+
+        /* Slide-in effect for feature box */
+        @keyframes slideInFeatureBox {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+
+        /* Slide-out effect for content */
+        @keyframes slideOutContent {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+        }
+
+        /* Slide-in effect for content */
+        @keyframes slideInContent {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Slide-out effect for bottom-nav */
+        @keyframes slideOutNav {
+            from {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+        }
+
+        /* Slide-in effect for bottom-nav */
+        @keyframes slideInNav {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="user-profile">
+                <div class="user-profile-img">
+                    <img src="Images/account.png" alt="Profile Picture">
+                </div>
+                <div class="user-profile-content">
+                    <h2>Hi, John Doe</h2>
+                    <p>Let’s keep your wheels spinning smoothly!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Section -->
+        <div class="content">
+            <input type="text" placeholder="Search...">
+
+            <div class="bike-profile-con">
+                <div class="bike-profile-img">
+                    <img src="Images/bike-image.png" alt="Honda CBR500R">
+                </div>
+                <div class="bike-profile-content">
+                    <p>Honda CBR500R</p>
+                </div>
+            </div>
+
+            <div class="features">
+                <a href="service.html" class="feature-box">
+                    <img src="Images/service-station.png" alt="Service">
+                    <p>Locate Service</p>
+                </a>
+                <a href="BookingSystem.html" class="feature-box">
+                    <img src="Images/booking.png" alt="Booking">
+                    <p>Book/Schedule Services</p>
+                </a>
+                <a href="history.html" class="feature-box">
+                    <img src="Images/history.png" alt="History">
+                    <p>Service History</p>
+                </a>
+                <a href="assistance.html" class="feature-box">
+                    <img src="Images/online-assistance.png" alt="Assistance">
+                    <p>Assistance</p>
+                </a>
+                <a href="spare-parts.html" class="feature-box">
+                    <img src="Images/spare-parts.png" alt="Spare Parts">
+                    <p>Spare Parts</p>
+                </a>
+                <a href="support.html" class="feature-box">
+                    <img src="Images/24-hours-support.png" alt="Support">
+                    <p>Communication & Support</p>
+                </a>
+            </div>
+        </div>
+        <div class="bottom-nav">
+            <a href="Home.html" class="nav-item active">
+                <i class="fas fa-home"></i><br>Home
+            </a>
+            <a href="activities.html" class="nav-item">
+                <i class="fas fa-list"></i><br>Activities
+            </a>
+            <a href="notifications.html" class="nav-item">
+                <i class="fas fa-bell"></i><br>Notification
+            </a>
+            <a href="account.html" class="nav-item">
+                <i class="fas fa-user"></i><br>Account
+            </a>
+        </div>
+    </div>
+</body>
+<script>
+    document.querySelectorAll(".feature-box").forEach(box => {
+        box.addEventListener("click", function (event) {
+            event.preventDefault(); // Prevent instant navigation
+
+            // Slide-out feature box content
+            document.querySelector(".content").style.animation = "slideOutFeatureBox 0.5s ease-in-out forwards";
+
+            let targetPage = "";
+
+            if (this.textContent.includes("Locate Service")) {
+                targetPage = "service.html";
+            } else if (this.textContent.includes("Book/Schedule Services")) {
+                targetPage = "BookingSystem.html";
+            } else if (this.textContent.includes("Service History")) {
+                targetPage = "history.html";
+            } else if (this.textContent.includes("Assistance")) {
+                targetPage = "assistance.html";
+            } else if (this.textContent.includes("Spare Parts")) {
+                targetPage = "spare-parts.html";
+            } else if (this.textContent.includes("Communication & Support")) {
+                targetPage = "support.html";
+            }
+
+            // After animation, navigate to the target page
+            setTimeout(() => {
+                window.location.href = targetPage; // Redirect after animation
+            }, 500); // Match animation duration
+        });
+    });
+
+
+    document.querySelectorAll(".nav-item").forEach(navItem => {
+        navItem.addEventListener("click", function (event) {
+            event.preventDefault(); // Prevent default behavior
+
+            // Slide-out content and bottom-nav
+            document.querySelector(".content").style.animation = "slideOutContent 0.5s ease-in-out forwards";
+            document.querySelector(".bottom-nav").style.animation = "slideOutNav 0.5s ease-in-out forwards";
+
+            // After animation, navigate to the target page
+            let targetPage = "";
+
+            if (this.textContent.includes("Home")) {
+                targetPage = "Home.html";
+            } else if (this.textContent.includes("Activities")) {
+                targetPage = "activities.html";
+            } else if (this.textContent.includes("Notifications")) {
+                targetPage = "notifications.html";
+            } else if (this.textContent.includes("Account")) {
+                targetPage = "account.html";
+            }
+
+            setTimeout(() => {
+                window.location.href = targetPage; // Redirect after animation
+            }, 500); // Match animation duration
+        });
+    });
+
+</script>
+
+</html>

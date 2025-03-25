@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 100%;
+            min-height: 100vh;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: slideIn 0.5s ease-in-out forwards;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+            }
+
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 8vw;
+            margin-bottom: 20px;
+        }
+
+        form {
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+        }
+
+        #form2 {
+            margin-top: 5px;
+        }
+
+        fieldset {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(128, 128, 128, 0.2);
+            position: relative;
+        }
+
+        legend {
+            font-size: 14px;
+            color: rgba(128, 128, 128, 0.8);
+        }
+
+        input {
+            width: 100%;
+            border: none;
+            outline: none;
+            padding: 8px;
+            font-size: 16px;
+            padding-right: 30px;
+        }
+
+        .signin-btn button {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            background-color: rgb(29, 153, 229);
+            color: white;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .separator {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 20px 0px 5px;
+            width: 80%;
+        }
+
+        .separator hr {
+            flex: 1;
+            border: none;
+            height: 1px;
+            background: #ccc;
+        }
+
+        .separator span {
+            padding: 0 10px;
+            color: #555;
+        }
+
+        .contact-logos {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;;
+        }
+
+        .logo-box {
+            width: 60px;
+            height: 60px;
+            border: 1px solid rgba(128, 128, 128, 0.6);
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .logo-box img {
+            width: 40px;
+            height: auto;
+        }
+
+        /* Slide out animation */
+        .slide-out {
+            animation: slideOut 0.5s ease-in-out forwards;
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(100%);
+            }
+        }
+
+        .sign-in {
+           margin-top: 50px;
+           font-size: 15px;
+           color: rgba(128, 128, 128, 0.7);
+        }
+
+        .sign-in a {
+            text-decoration: none;
+            color: rgb(29, 153, 229); 
+        }
+
+        .eye-icon {
+            position: absolute;
+            right: 10px;
+            /* Keep it close to the right edge */
+            top: 10px;
+            cursor: pointer;
+            color: gray;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="mainPage" class="container">
+        <h1>Sign In to Your RideX Account</h1>
+        <form id="signupForm">
+            <fieldset>
+                <legend>Email</legend>
+                <input type="email" id="email" name="email" placeholder="Enter your email">
+            </fieldset>
+        
+            <fieldset>
+                <legend>Password</legend>
+                <input type="password" id="password" name="password" placeholder="Enter your password">
+                <span class="eye-icon" id="passwordEye">👁️</span>
+            </fieldset>
+        
+            <!-- Error message appears here -->
+            <p id="errorMessage" style="color: red; text-align: center; display: none; margin-bottom: 10px;"></p>
+        
+            <div class="signin-btn">
+                <button type="submit">Log In</button>
+            </div>
+        </form>        
+
+        <div class="separator">
+            <hr>
+            <span>Or</span>
+            <hr>
+        </div>
+
+        <div class="contact-logos">
+            <div class="logo-box">
+                <img src="Images/facebook-logo.jpg" alt="Facebook">
+            </div>
+            <div class="logo-box">
+                <img src="Images/google-logo.png" alt="Google">
+            </div>
+            <div class="logo-box">
+                <img src="Images/microsoft-logo.png" alt="Microsoft">
+            </div>
+        </div>
+
+        <div class="sign-in">
+            <p>Don't have an account? <a href="SignUp.html">Sign Up</a></p>
+      </div>
+    </div>
+</body>
+<script>
+    document.getElementById("signupForm").addEventListener("submit", function (event) {
+        event.preventDefault(); // Prevent form submission
+
+        // Predefined users
+        const users = [
+            { email: "user1@example.com", password: "Password123" },
+            { email: "user2@example.com", password: "SecurePass456" },
+            { email: "user3@example.com", password: "RideX789" }
+        ];
+
+        // Get input values
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value.trim();
+        const errorMessage = document.getElementById("errorMessage");
+
+        // Reset error message
+        errorMessage.textContent = "";
+        errorMessage.style.display = "none";
+
+        // Validation checks
+        if (!email || !password) {
+            errorMessage.textContent = "Invalid username or password.";
+            errorMessage.style.display = "block";
+            return;
+        }
+
+        // Email format check
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailPattern.test(email)) {
+            errorMessage.textContent = "Invalid username or password.";
+            errorMessage.style.display = "block";
+            return;
+        }
+
+        // Check credentials
+        const validUser = users.find(user => user.email === email && user.password === password);
+
+        if (validUser) {
+            window.location.href = "home.html"; // Redirect to home page
+        } else {
+            errorMessage.textContent = "Invalid username or password.";
+            errorMessage.style.display = "block";
+        }
+    });
+
+    document.getElementById("passwordEye").addEventListener("click", function () {
+            const passwordInput = document.getElementById("password");
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+            } else {
+                passwordInput.type = "password";
+            }
+        });
+</script>
+</html>

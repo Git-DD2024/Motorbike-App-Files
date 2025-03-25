@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Responsive Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 100%;
+            min-height: 100vh;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .container-img {
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .container-img img {
+            width: 100%;
+            height: 55vh;
+            border-bottom-right-radius: 40px;
+            border-bottom-left-radius: 40px;
+            object-fit: cover;
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: fadeSlideIn 1s ease-out forwards;
+        }
+
+        @keyframes fadeSlideIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .container-content {
+            display: flex;
+            flex-direction: column;
+            width: 90%;
+            max-width: 400px;
+            margin-top: 8vh;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn {
+            display: block;
+            width: 70%;
+            padding: 14px;
+            text-align: center;
+            border-radius: 8px;
+            background-color: rgb(29, 153, 229);
+            color: white;
+            font-size: 16px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s ease-in-out, transform 0.2s;
+        }
+
+        .btn:hover {
+            background-color: rgb(24, 130, 195);
+            transform: scale(1.05);
+        }
+
+        .separator {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 30px 0 30px;
+            width: 100%;
+        }
+
+        .separator hr {
+            flex: 1;
+            border: none;
+            height: 1px;
+            background: #ccc;
+        }
+
+        .separator span {
+            padding: 0 10px;
+            color: #555;
+            font-size: 14px;
+        }
+
+        @media (max-width: 360px) {
+            .container-content {
+                width: 95%;
+            }
+
+            .btn {
+                font-size: 14px;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="container-img">
+            <img src="Images/signup_login_img.avif" alt="Signup/Login">
+        </div>
+
+        <div class="container-content">
+            <a href="SignIn.html" class="btn">Sign In</a>
+
+            <div class="separator">
+                <hr>
+                <span>Or</span>
+                <hr>
+            </div>
+
+            <a href="SignUp.html" class="btn">Sign Up</a>
+        </div>
+    </div>
+</body>
+
+</html>
